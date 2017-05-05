@@ -1,6 +1,6 @@
 require "test_helper"
 
-class TransmogTest < Minitest::Test
+class TransmogTest < TestCase
   def test_that_it_has_a_version_number
     refute_nil ::Transmog::VERSION
   end
