@@ -1,3 +1,4 @@
+require "transmog/rifier"
 require "transmog/version"
 
 module Transmog
