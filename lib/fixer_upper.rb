@@ -1,3 +1,4 @@
+require "fixer_upper/error"
 require "fixer_upper/renovation"
 require "fixer_upper/version"
 
@@ -19,5 +20,13 @@ class FixerUpper
 
   def renovate(filepath, contents = nil)
     @renovation.call(filepath, contents)
+  end
+
+  def diy(text, engines)
+    @renovation.diy(text, engines, bang: false)
+  end
+
+  def diy!(text, engines)
+    @renovation.diy(text, engines, bang: true)
   end
 end
