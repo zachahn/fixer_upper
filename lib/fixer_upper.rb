@@ -19,7 +19,11 @@ class FixerUpper
   end
 
   def renovate(filepath, contents = nil)
-    @renovation.renovate(filepath, contents)
+    @renovation.renovate(filepath, contents, bang: false)
+  end
+
+  def renovate!(filepath, contents = nil)
+    @renovation.renovate(filepath, contents, bang: true)
   end
 
   def diy(text, engines)

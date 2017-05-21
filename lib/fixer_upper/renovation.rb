@@ -4,10 +4,10 @@ class FixerUpper
       @registry = registry
     end
 
-    def renovate(filepath, contents)
+    def renovate(filepath, contents, bang:)
       text = file_contents(filepath, contents)
 
-      diy(text, *extensions(filepath).reverse, bang: false)
+      diy(text, *extensions(filepath).reverse, bang: bang)
     end
 
     def diy(text, *engines, bang:)
