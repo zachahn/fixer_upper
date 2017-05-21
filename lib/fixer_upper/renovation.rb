@@ -4,18 +4,10 @@ class FixerUpper
       @registry = registry
     end
 
-    def call(filepath, contents)
+    def renovate(filepath, contents)
       text = file_contents(filepath, contents)
 
-      extensions(filepath).reverse.reduce(text) do |memo, extension|
-        engine = @registry[extension]
-
-        if engine
-          engine.call(memo)
-        else
-          memo
-        end
-      end
+      diy(text, *extensions(filepath).reverse, bang: false)
     end
 
     def diy(text, *engines, bang:)
