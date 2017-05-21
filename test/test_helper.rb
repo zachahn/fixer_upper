@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "transmog"
-require "transmog/engine/erb"
-require "transmog/engine/cmark"
+require "fixer_upper"
+require "fixer_upper/engine/erb"
+require "fixer_upper/engine/cmark"
 
 require "pry"
 

@@ -1,4 +1,4 @@
-module Transmog
+class FixerUpper
   module Engine
     class Erb
       def initialize(scope)

@@ -2,15 +2,15 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "transmog/version"
+require "fixer_upper/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "transmog"
-  spec.version = Transmog::VERSION
+  spec.name = "fixer_upper"
+  spec.version = FixerUpper::VERSION
   spec.authors = ["Zach Ahn"]
   spec.email = ["engineering@zachahn.com"]
 
-  spec.summary = "Transmog-rifier for text into different text"
+  spec.summary = "Renovate text"
   spec.description = "Simple interface for template engines"
   spec.license = "MIT"
 
