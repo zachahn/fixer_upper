@@ -7,8 +7,14 @@ class FixerUpper
     @renovation = Renovation.new(@engine_registry)
   end
 
-  def []=(key, engine)
-    @engine_registry[key] = engine
+  def []=(*keys, engine)
+    keys.each do |key|
+      @engine_registry[key] = engine
+    end
+  end
+
+  def [](key)
+    @engine_registry[key]
   end
 
   def renovate(filepath, contents = nil)
