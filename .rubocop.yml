@@ -47,8 +47,5 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: false
 
-Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: comma
-
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
