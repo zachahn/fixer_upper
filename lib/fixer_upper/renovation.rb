@@ -18,16 +18,9 @@ class FixerUpper
 
     def diy(text:, engines:, options:, bang:)
       engines.reduce(text) do |memo, engine_name|
-        engine =
-          if bang
-            engine_or_raise(engine_name)
-          else
-            engine_or_nil(engine_name)
-          end
+        engine = find_engine(engine_name, bang)
 
-        default_options = @options[engine_name] || {}
-        specific_options = options[engine_name.to_sym] || {}
-        merged_options = default_options.merge(specific_options)
+        merged_options = options_for_engine(engine_name, options)
 
         if merged_options.any? && engine.method(:call).parameters.count >= 2
           engine.call(memo, **merged_options)
@@ -39,6 +32,21 @@ class FixerUpper
 
     private
 
+    def options_for_engine(engine_name, local_options)
+      default_options = @options[engine_name] || {}
+      specific_options = local_options[engine_name.to_sym] || {}
+
+      default_options.merge(specific_options)
+    end
+
+    def find_engine(engine_name, bang)
+      if bang
+        engine_or_raise(engine_name)
+      else
+        engine_or_nil(engine_name)
+      end
+    end
+
     def engine_or_nil(engine_name)
       @registry[engine_name]
     end
@@ -47,7 +55,7 @@ class FixerUpper
       found_engine = @registry[engine_name]
 
       if found_engine
-        file_contents
+        found_engine
       else
         raise Error::EngineNotFound, "unknown engine: `#{engine_name}`"
       end
