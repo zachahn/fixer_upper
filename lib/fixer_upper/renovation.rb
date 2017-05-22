@@ -5,10 +5,10 @@ class FixerUpper
       @options = options
     end
 
-    def renovate(filepath, contents, bang:)
-      text = file_contents(filepath, contents)
+    def renovate(filepath:, text: nil, bang:)
+      contents = file_contents(filepath, text)
 
-      diy(text: text, engines: extensions(filepath).reverse, bang: bang)
+      diy(text: contents, engines: extensions(filepath).reverse, bang: bang)
     end
 
     def diy(text:, engines:, bang:)
