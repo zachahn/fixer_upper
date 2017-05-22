@@ -8,10 +8,10 @@ class FixerUpper
     def renovate(filepath, contents, bang:)
       text = file_contents(filepath, contents)
 
-      diy(text, *extensions(filepath).reverse, bang: bang)
+      diy(text: text, engines: extensions(filepath).reverse, bang: bang)
     end
 
-    def diy(text, *engines, bang:)
+    def diy(text:, engines:, bang:)
       mapped_engines = map_engines(engines, bang: bang).compact
 
       mapped_engines.reduce(text) do |memo, engine|

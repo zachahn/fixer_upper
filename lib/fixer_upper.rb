@@ -29,11 +29,11 @@ class FixerUpper
     @renovation.renovate(filepath, contents, bang: true)
   end
 
-  def diy(text, engines)
-    @renovation.diy(text, engines, bang: false)
+  def diy(text, *engines)
+    @renovation.diy(text: text, engines: engines, bang: false)
   end
 
-  def diy!(text, engines)
-    @renovation.diy(text, engines, bang: true)
+  def diy!(text, *engines)
+    @renovation.diy(text: text, engines: engines, bang: true)
   end
 end
