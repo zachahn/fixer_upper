@@ -1,11 +1,13 @@
 module TestCaseEngines
   class Identity
-    def call(text, **options)
-      if options[:jk]
-        return ""
-      end
-
+    def call(text)
       text
+    end
+  end
+
+  class Call
+    def call(text, method:)
+      text.public_send(method)
     end
   end
 

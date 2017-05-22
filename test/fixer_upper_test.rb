@@ -11,33 +11,42 @@ class FixerUpperTest < TestCase
 
   def test_default_options
     fixer_upper = FixerUpper.new
-    fixer_upper.register("txt", "text", to: Identity.new, jk: true)
+    fixer_upper.register("txt", "text", to: Call.new, method: :upcase)
 
-    assert_equal("", fixer_upper.diy("hi", "txt"))
+    assert_equal("HI", fixer_upper.diy("hi", "txt"))
   end
 
-  def test_diy_options
+  def test_diy_runtime_options
     fixer_upper = FixerUpper.new
-    fixer_upper.register("txt", "text", to: Identity.new)
+    fixer_upper.register("txt", "text", to: Call.new)
 
-    assert_equal("", fixer_upper.diy("hi", "txt", txt: { jk: true }))
+    assert_equal("HI", fixer_upper.diy("hi", "txt", txt: { method: :upcase }))
   end
 
-  def test_renovate_options
+  def test_renovate_runtime_options
     fixer_upper = FixerUpper.new
-    fixer_upper.register("txt", "text", to: Identity.new)
+    fixer_upper.register("txt", "text", to: Call.new)
 
-    assert_equal("", fixer_upper.renovate("file.txt", "hi", txt: { jk: true }))
+    output = fixer_upper.renovate("file.txt", "hi", txt: { method: :upcase })
+    assert_equal("HI", output)
   end
 
-  def test_string_conversion
+  def test_runtime_options_override_default_options
+    fixer_upper = FixerUpper.new
+    fixer_upper.register("txt", "text", to: Call.new, method: :downcase)
+
+    output = fixer_upper.renovate("file.txt", "hi", txt: { method: :upcase })
+    assert_equal("HI", output)
+  end
+
+  def test_renovate_string
     fixer_upper = FixerUpper.new
     fixer_upper.register("rot13", to: Rotate.new(13))
 
     assert_equal("<pnrfne>", fixer_upper.renovate("file.rot13", "<caesar>"))
   end
 
-  def test_it_reads_file_contents
+  def test_renovate_file_contents
     fixer_upper = FixerUpper.new
     fixer_upper.register("txt", to: Shout.new)
 
