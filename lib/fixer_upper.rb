@@ -17,13 +17,7 @@ class FixerUpper
     @options_registry[to] = options
   end
 
-  def []=(*keys, engine)
-    keys.each do |key|
-      @engine_registry[key] = engine
-    end
-  end
-
-  def [](key)
+  def for(key)
     @engine_registry[key]
   end
 
