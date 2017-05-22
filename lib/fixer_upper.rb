@@ -12,28 +12,37 @@ class FixerUpper
   def register(*keys, to:, **options)
     keys.each do |key|
       @engine_registry[key] = to
+      @options_registry[key] = options
     end
-
-    @options_registry[to] = options
   end
 
   def for(key)
     @engine_registry[key]
   end
 
-  def renovate(filepath, contents = nil)
-    @renovation.renovate(filepath: filepath, text: contents, bang: false)
+  def renovate(filepath, contents = nil, **options)
+    @renovation.renovate(
+      filepath: filepath,
+      text: contents,
+      options: options,
+      bang: false
+    )
   end
 
-  def renovate!(filepath, contents = nil)
-    @renovation.renovate(filepath: filepath, text: contents, bang: true)
+  def renovate!(filepath, contents = nil, **options)
+    @renovation.renovate(
+      filepath: filepath,
+      text: contents,
+      options: options,
+      bang: true
+    )
   end
 
-  def diy(text, *engines)
-    @renovation.diy(text: text, engines: engines, bang: false)
+  def diy(text, *engines, **options)
+    @renovation.diy(text: text, engines: engines, options: options, bang: false)
   end
 
-  def diy!(text, *engines)
-    @renovation.diy(text: text, engines: engines, bang: true)
+  def diy!(text, *engines, **options)
+    @renovation.diy(text: text, engines: engines, options: options, bang: true)
   end
 end

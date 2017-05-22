@@ -5,20 +5,32 @@ class FixerUpper
       @options = options
     end
 
-    def renovate(filepath:, text: nil, bang:)
+    def renovate(filepath:, text: nil, options:, bang:)
       contents = file_contents(filepath, text)
 
-      diy(text: contents, engines: extensions(filepath).reverse, bang: bang)
+      diy(
+        text: contents,
+        engines: extensions(filepath).reverse,
+        options: options,
+        bang: bang
+      )
     end
 
-    def diy(text:, engines:, bang:)
-      mapped_engines = map_engines(engines, bang: bang).compact
+    def diy(text:, engines:, options:, bang:)
+      engines.reduce(text) do |memo, engine_name|
+        engine =
+          if bang
+            engine_or_raise(engine_name)
+          else
+            engine_or_nil(engine_name)
+          end
 
-      mapped_engines.reduce(text) do |memo, engine|
-        default_options = @options[engine]
+        default_options = @options[engine_name] || {}
+        specific_options = options[engine_name.to_sym] || {}
+        merged_options = default_options.merge(specific_options)
 
-        if default_options && engine.method(:call).parameters.count >= 2
-          engine.call(memo, **default_options)
+        if merged_options.any? && engine.method(:call).parameters.count >= 2
+          engine.call(memo, **merged_options)
         else
           engine.call(memo)
         end
@@ -26,20 +38,6 @@ class FixerUpper
     end
 
     private
-
-    def map_engines(engines, bang:)
-      engines.map do |engine_request|
-        if engine_request.respond_to?(:call)
-          next engine_request
-        end
-
-        if bang
-          engine_or_raise(engine_request)
-        else
-          engine_or_nil(engine_request)
-        end
-      end
-    end
 
     def engine_or_nil(engine_name)
       @registry[engine_name]

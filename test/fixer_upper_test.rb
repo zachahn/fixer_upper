@@ -16,6 +16,20 @@ class FixerUpperTest < TestCase
     assert_equal("", fixer_upper.diy("hi", "txt"))
   end
 
+  def test_diy_options
+    fixer_upper = FixerUpper.new
+    fixer_upper.register("txt", "text", to: Identity.new)
+
+    assert_equal("", fixer_upper.diy("hi", "txt", txt: { jk: true }))
+  end
+
+  def test_renovate_options
+    fixer_upper = FixerUpper.new
+    fixer_upper.register("txt", "text", to: Identity.new)
+
+    assert_equal("", fixer_upper.renovate("file.txt", "hi", txt: { jk: true }))
+  end
+
   def test_string_conversion
     fixer_upper = FixerUpper.new
     fixer_upper.register("rot13", to: Rotate.new(13))

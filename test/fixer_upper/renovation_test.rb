@@ -5,7 +5,13 @@ class RenovationTest < TestCase
     registry = { "upcase" => -> (text) { text.upcase } }
     fixer_upper = FixerUpper::Renovation.new(registry, {})
 
-    output = fixer_upper.diy(text: "hi", engines: ["upcase"], bang: false)
+    output =
+      fixer_upper.diy(
+        text: "hi",
+        engines: ["upcase"],
+        options: {},
+        bang: false
+      )
     assert_equal("HI", output)
   end
 
@@ -13,7 +19,12 @@ class RenovationTest < TestCase
     fixer_upper = FixerUpper::Renovation.new({}, {})
 
     assert_raises(FixerUpper::Error::EngineNotFound) do
-      fixer_upper.diy(text: "hi", engines: ["does_not_exist"], bang: true)
+      fixer_upper.diy(
+        text: "hi",
+        engines: ["does_not_exist"],
+        options: {},
+        bang: true
+      )
     end
   end
 end
