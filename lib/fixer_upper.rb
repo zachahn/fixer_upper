@@ -5,7 +5,16 @@ require "fixer_upper/version"
 class FixerUpper
   def initialize
     @engine_registry = {}
-    @renovation = Renovation.new(@engine_registry)
+    @options_registry = {}
+    @renovation = Renovation.new(@engine_registry, @options_registry)
+  end
+
+  def register(*keys, to:, **options)
+    keys.each do |key|
+      @engine_registry[key] = to
+    end
+
+    @options_registry[to] = options
   end
 
   def []=(*keys, engine)

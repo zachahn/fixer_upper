@@ -1,7 +1,8 @@
 class FixerUpper
   class Renovation
-    def initialize(registry)
+    def initialize(registry, options)
       @registry = registry
+      @options = options
     end
 
     def renovate(filepath, contents, bang:)
@@ -14,7 +15,13 @@ class FixerUpper
       mapped_engines = map_engines(engines, bang: bang).compact
 
       mapped_engines.reduce(text) do |memo, engine|
-        engine.call(memo)
+        default_options = @options[engine]
+
+        if default_options && engine.method(:call).parameters.count >= 2
+          engine.call(memo, **default_options)
+        else
+          engine.call(memo)
+        end
       end
     end
 
