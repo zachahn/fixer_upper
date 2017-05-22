@@ -4,5 +4,8 @@ require "fixer_upper"
 require "minitest/autorun"
 require "pry"
 
+require_relative "support"
+
 class TestCase < Minitest::Test
+  include TestCaseEngines
 end
