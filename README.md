@@ -22,14 +22,17 @@ And then execute:
 ## Usage
 
 ```ruby
+require "commonmarker"
+
 class FixerUpperCmark
-  def call(text)
-    CommonMarker.render_html(text, :DEFAULT)
+  def call(text, parse_option: :DEFAULT)
+    CommonMarker.render_html(text, parse_option)
   end
 end
 
 fixer_upper = FixerUpper.new
-fixer_upper["md"] = FixerUpperCmark.new
+fixer_upper.register("md", "markdown", to: FixerUpperCmark.new, \
+  parse_option: :HARDBREAKS)
 
 fixer_upper.renovate("file.md")
 # OR
