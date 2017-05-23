@@ -4,6 +4,7 @@ require "fixer_upper"
 require "minitest/autorun"
 require "pry"
 require "erb"
+require "sass"
 
 require_relative "support"
 
