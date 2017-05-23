@@ -20,29 +20,43 @@ class FixerUpper
     @engine_registry[key]
   end
 
-  def renovate(filepath, contents = nil, **options)
+  def renovate(filepath, contents = nil, **options, &block)
     @renovation.renovate(
       filepath: filepath,
       text: contents,
       options: options,
+      block: block,
       bang: false
     )
   end
 
-  def renovate!(filepath, contents = nil, **options)
+  def renovate!(filepath, contents = nil, **options, &block)
     @renovation.renovate(
       filepath: filepath,
       text: contents,
       options: options,
+      block: block,
       bang: true
     )
   end
 
-  def diy(text, *engines, **options)
-    @renovation.diy(text: text, engines: engines, options: options, bang: false)
+  def diy(text, *engines, **options, &block)
+    @renovation.diy(
+      text: text,
+      engines: engines,
+      options: options,
+      block: block,
+      bang: false
+    )
   end
 
-  def diy!(text, *engines, **options)
-    @renovation.diy(text: text, engines: engines, options: options, bang: true)
+  def diy!(text, *engines, **options, &block)
+    @renovation.diy(
+      text: text,
+      engines: engines,
+      options: options,
+      block: block,
+      bang: true,
+    )
   end
 end

@@ -5,7 +5,7 @@ class FixerUpper
       @options = options
     end
 
-    def renovate(filepath:, text: nil, options:, bang:)
+    def renovate(filepath:, text: nil, options:, block: nil, bang:)
       contents = file_contents(filepath, text)
 
       diy(
@@ -13,13 +13,18 @@ class FixerUpper
         engines: extensions(filepath).reverse,
         options: options,
         filepath: filepath,
+        block: block,
         bang: bang
       )
     end
 
-    def diy(text:, engines:, options:, filepath: nil, bang:)
+    def diy(text:, engines:, options:, filepath: nil, block: nil, bang:)
       engines.reduce(text) do |memo, engine_name|
         engine = find_engine(engine_name, bang)
+
+        if engine.nil?
+          next memo
+        end
 
         merged_options = options_for_engine(engine_name, options)
 
@@ -35,9 +40,9 @@ class FixerUpper
         end
 
         if merged_options.any? && parameters.count >= 2
-          engine.call(memo, **merged_options)
+          engine.call(memo, **merged_options, &block)
         else
-          engine.call(memo)
+          engine.call(memo, &block)
         end
       end
     end
