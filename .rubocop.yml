@@ -8,6 +8,10 @@ Metrics/LineLength:
   IgnoredPatterns:
     - !ruby/regexp /^\s*#/
 
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*.rb
+
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 

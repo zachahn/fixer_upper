@@ -26,34 +26,43 @@ class FixerUpper
           next memo
         end
 
-        merged_options = options_for_engine(engine_name, options)
+        parameters = parameters_for(engine)
+        merged_options =
+          options_for_engine(engine_name, options, parameters, filepath)
 
-        parameters =
-          if engine.respond_to?(:parameters)
-            engine.parameters
-          else
-            engine.method(:call).parameters
-          end
-
-        if parameters.include?([:keyreq, :_filepath_])
-          merged_options.merge!(_filepath_: filepath)
-        end
-
-        if merged_options.any? && parameters.count >= 2
-          engine.call(memo, **merged_options, &block)
-        else
-          engine.call(memo, &block)
-        end
+        engine_invoke(engine, memo, merged_options, parameters, block)
       end
     end
 
     private
 
-    def options_for_engine(engine_name, local_options)
+    def engine_invoke(engine, text, options, parameters, block)
+      if options.any? && parameters.count >= 2
+        engine.call(text, **options, &block)
+      else
+        engine.call(text, &block)
+      end
+    end
+
+    def parameters_for(engine)
+      if engine.respond_to?(:parameters)
+        engine.parameters
+      else
+        engine.method(:call).parameters
+      end
+    end
+
+    def options_for_engine(engine_name, local_options, parameters, filepath)
       default_options = @options[engine_name] || {}
       specific_options = local_options[engine_name.to_sym] || {}
 
-      default_options.merge(specific_options)
+      merged_options = default_options.merge(specific_options)
+
+      if parameters.include?([:keyreq, :_filepath_])
+        merged_options[:_filepath_] = filepath
+      end
+
+      merged_options
     end
 
     def find_engine(engine_name, bang)

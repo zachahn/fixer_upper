@@ -30,7 +30,7 @@ class RenovationTest < TestCase
 
   def test_has_filename
     engines = {
-      "txt" => Proc.new { |text, _filepath_:| "#{text.strip} | #{_filepath_}" }
+      "txt" => proc { |text, _filepath_:| "#{text.strip} | #{_filepath_}" },
     }
 
     renovation = FixerUpper::Renovation.new(engines, {})
@@ -46,7 +46,7 @@ class RenovationTest < TestCase
 
   def test_hasnt_filename
     engines = {
-      "txt" => Proc.new { |text, _filepath_:| "#{text.strip} | #{_filepath_}" }
+      "txt" => proc { |text, _filepath_:| "#{text.strip} | #{_filepath_}" },
     }
 
     renovation = FixerUpper::Renovation.new(engines, {})
@@ -56,7 +56,7 @@ class RenovationTest < TestCase
         engines: ["txt"],
         options: {},
         bang: true
-    )
+      )
 
     assert_equal("hi | ", output)
   end

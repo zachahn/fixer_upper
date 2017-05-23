@@ -56,7 +56,7 @@ class FixerUpper
       engines: engines,
       options: options,
       block: block,
-      bang: true,
+      bang: true
     )
   end
 end
