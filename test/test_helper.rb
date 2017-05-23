@@ -3,8 +3,12 @@ require "fixer_upper"
 
 require "minitest/autorun"
 require "pry"
+require "erb"
 
 require_relative "support"
+
+Dir.glob(File.expand_path("../../lib/fixer_upper/engine/**/*.rb", __FILE__))
+  .each { |path| require path }
 
 class TestCase < Minitest::Test
   include TestCaseEngines
