@@ -27,4 +27,37 @@ class RenovationTest < TestCase
       )
     end
   end
+
+  def test_has_filename
+    engines = {
+      "txt" => Proc.new { |text, _filepath_:| "#{text.strip} | #{_filepath_}" }
+    }
+
+    renovation = FixerUpper::Renovation.new(engines, {})
+    output =
+      renovation.renovate(
+        filepath: "test/fixtures/tiny.txt",
+        options: {},
+        bang: true
+      )
+
+    assert_equal("hi | test/fixtures/tiny.txt", output)
+  end
+
+  def test_hasnt_filename
+    engines = {
+      "txt" => Proc.new { |text, _filepath_:| "#{text.strip} | #{_filepath_}" }
+    }
+
+    renovation = FixerUpper::Renovation.new(engines, {})
+    output =
+      renovation.diy(
+        text: "hi",
+        engines: ["txt"],
+        options: {},
+        bang: true
+    )
+
+    assert_equal("hi | ", output)
+  end
 end

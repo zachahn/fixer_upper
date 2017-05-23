@@ -12,17 +12,29 @@ class FixerUpper
         text: contents,
         engines: extensions(filepath).reverse,
         options: options,
+        filepath: filepath,
         bang: bang
       )
     end
 
-    def diy(text:, engines:, options:, bang:)
+    def diy(text:, engines:, options:, filepath: nil, bang:)
       engines.reduce(text) do |memo, engine_name|
         engine = find_engine(engine_name, bang)
 
         merged_options = options_for_engine(engine_name, options)
 
-        if merged_options.any? && engine.method(:call).parameters.count >= 2
+        parameters =
+          if engine.respond_to?(:parameters)
+            engine.parameters
+          else
+            engine.method(:call).parameters
+          end
+
+        if parameters.include?([:keyreq, :_filepath_])
+          merged_options.merge!(_filepath_: filepath)
+        end
+
+        if merged_options.any? && parameters.count >= 2
           engine.call(memo, **merged_options)
         else
           engine.call(memo)
