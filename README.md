@@ -1,5 +1,7 @@
 # FixerUpper
 
+[![Build Status](https://travis-ci.org/zachahn/fixer_upper.svg?branch=master)](https://travis-ci.org/zachahn/fixer_upper)
+
 You have a file and it just has so much potential.
 
 Gut job or not, FixerUpper makes that file into the result of your dreams,
