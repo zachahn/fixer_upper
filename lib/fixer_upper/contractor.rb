@@ -53,8 +53,8 @@ class FixerUpper
 
       merged_options = default_options.merge(specific_options)
 
-      if parameters.include?([:keyreq, :_filepath_])
-        merged_options[:_filepath_] = filepath
+      if parameters.include?([:keyreq, :filepath])
+        merged_options[:filepath] = filepath
       end
 
       merged_options

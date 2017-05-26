@@ -30,7 +30,7 @@ class RenovationTest < TestCase
 
   def test_has_filename
     engines = {
-      "txt" => proc { |text, _filepath_:| "#{text.strip} | #{_filepath_}" },
+      "txt" => proc { |text, filepath:| "#{text.strip} | #{filepath}" },
     }
 
     renovation = FixerUpper::Renovation.new(engines, {})
@@ -46,7 +46,7 @@ class RenovationTest < TestCase
 
   def test_hasnt_filename
     engines = {
-      "txt" => proc { |text, _filepath_:| "#{text.strip} | #{_filepath_}" },
+      "txt" => proc { |text, filepath:| "#{text.strip} | #{filepath}" },
     }
 
     renovation = FixerUpper::Renovation.new(engines, {})

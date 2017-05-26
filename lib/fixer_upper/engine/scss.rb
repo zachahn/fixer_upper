@@ -1,8 +1,8 @@
 class FixerUpper
   module Engine
     class Scss
-      def call(text, _filepath_:, **options)
-        options = options.merge(syntax: :scss, filename: _filepath_)
+      def call(text, filepath:, **options)
+        options = options.merge(syntax: :scss, filename: filepath)
 
         engine = ::Sass::Engine.new(text, **options)
         engine.render
