@@ -1,2 +1,5 @@
 inherit_gem:
   the_bath_of_zahn: rubocop.yml
+
+Metrics/ParameterLists:
+  Enabled: false
