@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "sass"
+  spec.add_development_dependency "the_bath_of_zahn"
 end
