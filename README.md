@@ -8,6 +8,55 @@ Gut job or not, FixerUpper makes that file into the result of your dreams,
 backsplash, shiplap, and all.
 
 
+## Usage
+
+FixerUpper is a wrapper around Tilt template engines.
+
+It requires explicit registration of template engines:
+
+```ruby
+fixer_upper = FixerUpper.new
+fixer_upper.register_tilt("erb", engine: Tilt::ERBTemplate)
+
+renderer = fixer_upper.renderer(filename: "file.erb", content: %(<%= 1 + 1 %>))
+renderer.call # => "2"
+```
+
+It allows for setting "global" options.
+
+```ruby
+fixer_upper = FixerUpper.new
+fixer_upper.register_tilt("csv", engine: Tilt::CSVTemplate,
+  options: { col_sep: "|" }
+)
+
+template = %(csv << ["hello", "world"])
+
+renderer = fixer_upper.renderer(filename: "file.csv", content: template)
+renderer.call # => "hello|world\n"
+```
+
+It works with non-tilt templates as well
+
+```ruby
+class Upcase
+  def initialize(_filename, memo)
+    @memo = memo
+  end
+
+  def render(_view_scope, &block)
+    @memo.upcase
+  end
+end
+
+fixer_upper = FixerUpper.new
+fixer_upper.register("upcase", engine: Upcase)
+
+renderer = fixer_upper.renderer(filename: "file.upcase", content: "hi")
+renderer.call # => "HI"
+```
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -19,27 +68,6 @@ gem "fixer_upper"
 And then execute:
 
     $ bundle
-
-
-## Usage
-
-```ruby
-require "commonmarker"
-
-class FixerUpperCmark
-  def call(text, parse_option: :DEFAULT)
-    CommonMarker.render_html(text, parse_option)
-  end
-end
-
-fixer_upper = FixerUpper.new
-fixer_upper.register("md", "markdown", to: FixerUpperCmark.new, \
-  parse_option: :HARDBREAKS)
-
-fixer_upper.renovate("file.md")
-# OR
-fixer_upper.diy("**text**", "md")
-```
 
 
 ## Development
