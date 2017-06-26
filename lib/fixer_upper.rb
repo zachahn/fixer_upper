@@ -2,9 +2,9 @@ require "forwardable"
 
 require "tilt"
 
-require "fixer_upper/contractor"
 require "fixer_upper/error"
 require "fixer_upper/registry"
+require "fixer_upper/renderer"
 require "fixer_upper/tilt_template_bridge"
 require "fixer_upper/version"
 
@@ -18,7 +18,7 @@ class FixerUpper
     @engine_registry = Registry.new
   end
 
-  def contractor(**args)
-    Contractor.new(engine_registry: @engine_registry, **args)
+  def renderer(**args)
+    Renderer.new(engine_registry: @engine_registry, **args)
   end
 end

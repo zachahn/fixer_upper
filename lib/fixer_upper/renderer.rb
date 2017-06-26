@@ -1,5 +1,5 @@
 class FixerUpper
-  class Contractor
+  class Renderer
     def initialize(engine_registry:,
       filename:,
       content:,
