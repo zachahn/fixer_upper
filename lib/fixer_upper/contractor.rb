@@ -17,10 +17,8 @@ class FixerUpper
 
     def call
       engines.reduce(@content) do |memo, engine|
-        if @engine_registry.key?(engine)
-          render_fixer_upper(engine, memo)
-        elsif Tilt[engine]
-          render_tilt(engine, memo)
+        if @engine_registry.engine?(engine)
+          render_engine(engine, memo)
         else
           memo
         end
@@ -40,20 +38,12 @@ class FixerUpper
 
     private
 
-    def render_fixer_upper(engine, memo)
+    def render_engine(engine, memo)
       fixer_upper_engine_class = @engine_registry[engine]
 
       fixer_upper_engine = fixer_upper_engine_class.new(@filename, memo)
 
       fixer_upper_engine.render(@view_scope, &@block)
-    end
-
-    def render_tilt(engine, memo)
-      tilt_engine_class = Tilt[engine]
-
-      tilt_engine = tilt_engine_class.new(@filename, 1, {}) { memo }
-
-      tilt_engine.render(@view_scope, {}, &@block)
     end
 
     def compute_extensions

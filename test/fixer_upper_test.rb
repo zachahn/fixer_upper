@@ -47,7 +47,8 @@ class FixerUpperTest < TestCase
 
   def new_fixer_upper
     fixer_upper = FixerUpper.new
-    fixer_upper.register("upcase", Upcase)
+    fixer_upper.register("upcase", engine: Upcase)
+    fixer_upper.register_tilt("erb", engine: Tilt::ERBTemplate)
 
     fixer_upper
   end
