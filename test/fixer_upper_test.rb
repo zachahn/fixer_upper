@@ -36,11 +36,18 @@ class FixerUpperTest < TestCase
   private
 
   class Upcase
+    def initialize(_, memo)
+      @memo = memo
+    end
+
+    def render(*)
+      @memo.upcase
+    end
   end
 
   def new_fixer_upper
     fixer_upper = FixerUpper.new
-    fixer_upper.register("upcase", Upcase.new)
+    fixer_upper.register("upcase", Upcase)
 
     fixer_upper
   end
