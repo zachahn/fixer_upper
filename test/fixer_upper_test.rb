@@ -26,7 +26,7 @@ class FixerUpperTest < TestCase
     worker = new_fixer_upper.contractor(
       filename: "cool.txt.erb",
       content: %(this file is <%= yield %>),
-      scope: BasicObject.new,
+      view_scope: BasicObject.new,
       block: -> { "cool" }
     )
 
