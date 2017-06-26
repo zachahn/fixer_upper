@@ -1,3 +1,5 @@
+require "tilt"
+
 require "fixer_upper/contractor"
 require "fixer_upper/error"
 require "fixer_upper/version"
