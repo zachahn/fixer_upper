@@ -1,5 +1,7 @@
 class FixerUpper
   class TiltTemplateClassBridge
+    attr_reader :tilt_engine_class
+
     def initialize(engine, options)
       @tilt_engine_class = engine
       @options = options
