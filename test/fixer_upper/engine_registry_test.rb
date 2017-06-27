@@ -1,22 +1,22 @@
 require "test_helper"
 
-class RegistryTest < TestCase
+class EngineRegistryTest < TestCase
   def test_registration_of_tilt
-    registry = FixerUpper::Registry.new
+    registry = FixerUpper::EngineRegistry.new
     registry.register(:erb, engine: Tilt::ERBTemplate)
 
     assert_kind_of(FixerUpper::TiltTemplateClassBridge, registry[:erb])
   end
 
   def test_registration_of_fixer_upper
-    registry = FixerUpper::Registry.new
+    registry = FixerUpper::EngineRegistry.new
     registry.register(:idk, engine: SomeCoolTemplateThatWorks)
 
     assert_equal(SomeCoolTemplateThatWorks, registry[:idk])
   end
 
   def test_non_tilt_template_engines_cant_have_options
-    registry = FixerUpper::Registry.new
+    registry = FixerUpper::EngineRegistry.new
 
     assert_raises(FixerUpper::Error::EngineDoesntAcceptOptions) do
       opts = { foo: :bar }
@@ -25,7 +25,7 @@ class RegistryTest < TestCase
   end
 
   def test_cant_double_register
-    registry = FixerUpper::Registry.new
+    registry = FixerUpper::EngineRegistry.new
 
     assert_raises(FixerUpper::Error::MultipleEnginesForOneName) do
       registry.register(:idk, engine: SomeCoolTemplateThatWorks)
@@ -34,7 +34,7 @@ class RegistryTest < TestCase
   end
 
   def test_can_register_identical_engine_with_different_extension
-    registry = FixerUpper::Registry.new
+    registry = FixerUpper::EngineRegistry.new
 
     registry.register(:idk, engine: SomeCoolTemplateThatWorks)
     registry.register(:lol, engine: SomeCoolTemplateThatWorks)

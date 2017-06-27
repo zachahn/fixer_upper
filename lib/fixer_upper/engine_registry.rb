@@ -1,5 +1,5 @@
 class FixerUpper
-  class Registry
+  class EngineRegistry
     def initialize
       @engines = {}
     end
