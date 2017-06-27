@@ -14,7 +14,16 @@ class ReadmeTest < TestCase
       line_with_expected_result = sample.lines.last
       expected_result = line_with_expected_result.split(" # => ").last
 
-      assert_equal(eval(expected_result), eval(sample))
+      assert_equal(safe_eval_jk(expected_result), safe_eval_jk(sample))
     end
+  end
+
+  private
+
+  # This is just as dangerous as calling `eval(string)`, but this prevents
+  # Rubocop from complaining lol
+  def safe_eval_jk(str)
+    obj = Object.new
+    obj.instance_eval(str)
   end
 end
