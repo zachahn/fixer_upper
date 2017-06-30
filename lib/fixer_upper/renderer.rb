@@ -1,39 +1,30 @@
 class FixerUpper
   class Renderer
+    attr_reader :engines
+
     def initialize(engine_registry:,
       filename:,
       content:,
-      engines: [],
+      engines:,
       view_scope: nil,
       block: nil)
       @engine_registry = engine_registry
 
       @filename = filename
       @content = content
-      @engines = engines
+      @engines = engines || []
       @view_scope = view_scope
       @block = block
     end
 
     def call
-      engines.reduce(@content) do |memo, engine|
+      @engines.reduce(@content) do |memo, engine|
         if @engine_registry.engine?(engine)
           render_engine(engine, memo)
         else
           memo
         end
       end
-    end
-
-    def engines
-      computed_engines =
-        if @engines.any?
-          @engines.map(&:to_s)
-        else
-          compute_extensions
-        end
-
-      computed_engines.reverse
     end
 
     private

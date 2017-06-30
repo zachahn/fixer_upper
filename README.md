@@ -18,7 +18,12 @@ It requires explicit registration of template engines:
 fixer_upper = FixerUpper.new
 fixer_upper.register_tilt("erb", engine: Tilt::ERBTemplate)
 
-renderer = fixer_upper.renderer(filename: "file.erb", content: %(<%= 1 + 1 %>))
+renderer =
+  fixer_upper.renderer(
+    filename: "file.erb",
+    content: %(<%= 1 + 1 %>),
+    engines: %i[erb]
+  )
 renderer.call # => "2"
 ```
 
@@ -26,13 +31,20 @@ It allows for setting "global" options.
 
 ```ruby
 fixer_upper = FixerUpper.new
-fixer_upper.register_tilt("csv", engine: Tilt::CSVTemplate,
+fixer_upper.register_tilt(
+  "csv",
+  engine: Tilt::CSVTemplate,
   options: { col_sep: "|" }
 )
 
 template = %(csv << ["hello", "world"])
 
-renderer = fixer_upper.renderer(filename: "file.csv", content: template)
+renderer =
+  fixer_upper.renderer(
+    filename: "file.csv",
+    content: template,
+    engines: %i[csv]
+  )
 renderer.call # => "hello|world\n"
 ```
 
@@ -52,7 +64,12 @@ end
 fixer_upper = FixerUpper.new
 fixer_upper.register("upcase", engine: Upcase)
 
-renderer = fixer_upper.renderer(filename: "file.upcase", content: "hi")
+renderer =
+  fixer_upper.renderer(
+    filename: "file.upcase",
+    content: "hi",
+    engines: %i[upcase]
+  )
 renderer.call # => "HI"
 ```
 

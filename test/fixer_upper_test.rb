@@ -4,6 +4,7 @@ class FixerUpperTest < TestCase
   def test_it_figures_out_engines_from_filename
     renderer = new_fixer_upper.renderer(
       filename: "cool.txt.erb",
+      engines: %w[erb txt],
       content: %(this file is <%= "cool" %>),
       view_scope: BasicObject.new
     )
@@ -16,7 +17,7 @@ class FixerUpperTest < TestCase
       filename: "cool.txt.erb",
       content: %(this file is <%= "cool".length %>),
       view_scope: BasicObject.new,
-      engines: %i[upcase erb]
+      engines: %i[erb upcase]
     )
 
     assert_equal(%(THIS FILE IS 4), renderer.call)
@@ -25,6 +26,7 @@ class FixerUpperTest < TestCase
   def test_yield_works
     renderer = new_fixer_upper.renderer(
       filename: "cool.txt.erb",
+      engines: %w[erb txt],
       content: %(this file is <%= yield %>),
       view_scope: BasicObject.new,
       block: -> { "cool" }
